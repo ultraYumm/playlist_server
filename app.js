@@ -10,6 +10,7 @@ const apps = require('./play-data.js');
 app.get('/apps', (req, res) => {
     const { search = "", sort, genre } = req.query;
     
+    
 
     if (sort) {
         if (!['Rating', 'App'].includes(sort)) {
@@ -29,16 +30,14 @@ app.get('/apps', (req, res) => {
 
 
 
-    let results = apps
-            .filter(item =>
-              item
-                 .App
-                 .toLowerCase()
-                 .includes(search.toLowerCase()));
-
+      let results = apps
+      .filter(item =>
+        item
+           .App
+           .toLowerCase()
+           .includes(genre.toLowerCase()));
  
-
-    
+   
      if (sort) {
         results
         .sort((a, b) => {
@@ -55,11 +54,12 @@ app.get('/apps', (req, res) => {
              const selectApps = results.filter(num => num.Genres === selection); 
              return selectApps 
             }
-            
+            console.log(pickGenre(selection))
             pickGenre(selection)
+            
         }
-              
-
+        
+       
     res
     .json(results)
 });
