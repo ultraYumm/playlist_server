@@ -23,22 +23,32 @@ app.get('/apps', (req, res) => {
         }
       }*/
 
-    if (genre || sort) {
+    if (sort) {
       if (!['Rating', 'App'].includes(sort)) {
         return res
           .status(400)
           .send('Sort must be one of Rating or App');
       }
     
-        if (!['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcade', 'Card'].includes(genre)) {
+        /*if (!['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcade', 'Card'].includes(genre)) {
           return res
             .status(400)
             .send('Genre must be one of Action, Puzzle, Strategy, Casual, Arcade or Card')
                
-        }
+        }*/
       }
 
-      
+      if (genre) {
+              
+          if (!['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcade', 'Card',].includes(genre))
+          
+          {
+            return res
+              .status(400)
+              .send('Genre must be one of Action, Puzzle, Strategy, Casual, Arcade or Card')
+              
+          }
+        }   
 
       console.log("passed")
 
@@ -51,38 +61,36 @@ app.get('/apps', (req, res) => {
            //.includes(toLowerCase()));
  
            //.includes(genre.toLowerCase()));
- 
-   
-     if (sort) {
-        results
-        .sort((a, b) => {
-        return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
-        });
-        }            
+    
+    if (sort) {
+    results
+      .sort((a, b) => {
+        return a[sort] < b[sort] ? 1 : a[sort] > b[sort] ? -1 : 0;
+    });
+    }
+     
     
     if (genre) {
-            let selection = req.query.genre;
-            console.log("selection;", selection)
-            
-            pickGenre = (selection) => {
-             
-     
-             const selectApps = results.filter(num => num.Genres === selection); 
-             console.log(selectApps)
-             
-             return selectApps 
-             
-            }
-            //console.log(pickGenre(selection))
-            results = pickGenre(selection)
-            
-        }
-        
+    let selection = req.query.genre;
+    console.log("selection;", selection)
+    
+    pickGenre = (selection) => {
+      
+
+      const selectApps = results.filter(num => num.Genres === selection); 
+      console.log(selectApps)
+      
+      return selectApps 
+      
+    }
+    //console.log(pickGenre(selection))
+    results = pickGenre(selection)
+    
+}
+
        
     res
     .json(results)
 });
 
-app.listen(8001, () => {
-  console.log('Server started on PORT 8001');
-});
+module.exports = app;
